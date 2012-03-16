@@ -9,12 +9,6 @@ ImageMagick to read a picture and then iterates the pixels of the picture. The
 saturation of every pixel is raised to the maximum and the hue is increased
 every row in a way that you get a full color cycle over the whole image.
 
-Example
--------
-
-![cat](./example/cat.jpg "cat")
-![nyaniced cat](./example/nyancat.jpg "nyanized cat")
-
 License
 -------
 
