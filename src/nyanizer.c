@@ -16,8 +16,6 @@ void usage(void);
 int
 main(int argc, char **argv)
 {
-	MagickWandGenesis();
-
 	char *infile = NULL, *outfile = NULL;
 	int times = 1;
 
@@ -43,6 +41,8 @@ main(int argc, char **argv)
 
 	if (infile == NULL || outfile == NULL)
 		usage();
+
+	MagickWandGenesis();
 
 	MagickWand *wand = NewMagickWand();
 	if (MagickReadImage(wand, infile) == MagickFalse)
