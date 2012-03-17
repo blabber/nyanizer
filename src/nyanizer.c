@@ -7,12 +7,8 @@
  */
 
 #include <err.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <math.h>
-#include <assert.h>
 #include <wand/MagickWand.h>
 
 void usage(void);
@@ -28,20 +24,20 @@ main(int argc, char **argv)
 	int opt;
 	while ((opt = getopt(argc, argv, "ht:i:o:")) != -1) {
 		switch (opt) {
-			case 't':
-				times = strtol(optarg, (char **)NULL, 10);
-				if (times <= 0)
-					times = 1;
-				break;
-			case 'i':
-				infile = strdup(optarg);
-				break;
-			case 'o':
-				outfile = strdup(optarg);
-				break;
-			case 'h':
-			default:
-				usage();
+		case 't':
+			times = strtol(optarg, (char **)NULL, 10);
+			if (times <= 0)
+			times = 1;
+			break;
+		case 'i':
+			infile = strdup(optarg);
+			break;
+		case 'o':
+			outfile = strdup(optarg);
+			break;
+		case 'h':
+		default:
+			usage();
 		}
 	}
 
@@ -64,13 +60,13 @@ main(int argc, char **argv)
 		size_t width;
 		PixelWand **pixels = PixelGetNextIteratorRow(iterator, &width);
 		if (pixels == NULL)
-			err(EXIT_FAILURE, "could not PixelGetNextIteratorRow");;
+			err(EXIT_FAILURE, "could not PixelGetNextIteratorRow");
 
 		for (size_t x = 0; x < width; x++) {
-			double hue, sat, lightness;
+			double hue, sat, light;
 
-			PixelGetHSL(pixels[x], &hue, &sat, &lightness);
-			PixelSetHSL(pixels[x], nhue, 1, lightness);
+			PixelGetHSL(pixels[x], &hue, &sat, &light);
+			PixelSetHSL(pixels[x], nhue, 1, light);
 		}
 
 		nhue += dhue;
@@ -80,7 +76,7 @@ main(int argc, char **argv)
 		PixelSyncIterator(iterator);
 	}
 
-	MagickWriteImages(wand, outfile , MagickTrue);
+	MagickWriteImages(wand, outfile, MagickTrue);
 
 	DestroyPixelIterator(iterator);
 	DestroyMagickWand(wand);
@@ -89,8 +85,10 @@ main(int argc, char **argv)
 	return (EXIT_SUCCESS);
 }
 
-void usage(void)
+void
+usage(void)
 {
-	printf("usage: %s [-t times] -i <infile> -o <outfile>\n", getprogname());
+	printf("usage: %s [-t times] -i <infile> -o <outfile>\n",
+	    getprogname());
 	exit(1);
 }
